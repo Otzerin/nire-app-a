@@ -2,7 +2,7 @@
 /* Nire App-a — v0.1 (solo Aurrekontua)
    Todo el texto visible está en euskera. Los datos se guardan solo en este dispositivo (IndexedDB). */
 
-const BERTSIOA = '0.1';
+const BERTSIOA = '0.1.1';
 const HIL = ['urtarrila', 'otsaila', 'martxoa', 'apirila', 'maiatza', 'ekaina', 'uztaila', 'abuztua', 'iraila', 'urria', 'azaroa', 'abendua'];
 const HIL_LAB = ['Urt', 'Ots', 'Mar', 'Api', 'Mai', 'Eka', 'Uzt', 'Abu', 'Ira', 'Urr', 'Aza', 'Abe'];
 const KOLOREAK = ['#0F6E56', '#5DCAA5', '#378ADD', '#EF9F27', '#D85A30', '#D4537E', '#7F77DD', '#888780', '#639922', '#BA7517', '#185FA5', '#993556'];

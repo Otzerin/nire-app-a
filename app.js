@@ -2,7 +2,7 @@
 /* Nire App-a — v0.1 (solo Aurrekontua)
    Todo el texto visible está en euskera. Los datos se guardan solo en este dispositivo (IndexedDB). */
 
-const BERTSIOA = '0.1.1';
+const BERTSIOA = '0.1.2';
 const HIL = ['urtarrila', 'otsaila', 'martxoa', 'apirila', 'maiatza', 'ekaina', 'uztaila', 'abuztua', 'iraila', 'urria', 'azaroa', 'abendua'];
 const HIL_LAB = ['Urt', 'Ots', 'Mar', 'Api', 'Mai', 'Eka', 'Uzt', 'Abu', 'Ira', 'Urr', 'Aza', 'Abe'];
 const KOLOREAK = ['#0F6E56', '#5DCAA5', '#378ADD', '#EF9F27', '#D85A30', '#D4537E', '#7F77DD', '#888780', '#639922', '#BA7517', '#185FA5', '#993556'];
@@ -310,16 +310,22 @@ function ezarpenakOrria() {
   const estekak = [['Gastu berria', '#gastu-berria'], ['Diru-sarrera', '#diru-sarrera'], ['Arbeletik itsatsi', '#itsatsi']]
     .concat(S.groups.filter(g => !g.archived).map(g => [`${g.icon} ${g.name}`, `#gastu-berria?taldea=${slug(g.name)}`]));
   const modua = (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) ? 'App instalatua' : 'Nabigatzailea';
-  let azkena = '—';
-  try { azkena = localStorage.getItem('azken-irekiera') || '—'; } catch (e) { /* sin acceso */ }
+  const hist = irekierak();
+  const probak = [
+    ['Proba A (#)', '#gastu-berria?taldea=janaria&zenbatekoa=1.11&izena=Proba-A'],
+    ['Proba B (?)', '?e=gastu-berria&taldea=janaria&zenbatekoa=2.22&izena=Proba-B']
+  ];
   irekiOrria(
     goiburua('Ezarpenak') +
     `<div class="lbl">Atajoetarako estekak</div>
      <div class="oharra">Kopiatu esteka eta itsatsi iPhoneko <b>Atajos</b> aplikazioko "Abrir URL" ekintzan.</div>
      ${estekak.map(([iz, h]) => `<div class="esteka-lerroa"><span><b>${esc(iz)}</b><br><code>${esc(oinarria + h)}</code></span>
         <button class="kopiatu" data-kopiatu="${esc(oinarria + h)}">Kopiatu</button></div>`).join('')}
+     <div class="lbl" style="margin-top:16px">Atajoen probak</div>
+     ${probak.map(([iz, h]) => `<div class="esteka-lerroa"><span><b>${esc(iz)}</b><br><code>${esc(oinarria + h)}</code></span>
+        <button class="kopiatu" data-kopiatu="${esc(oinarria + h)}">Kopiatu</button></div>`).join('')}
      <div class="lbl" style="margin-top:16px">Diagnostikoa</div>
-     <div class="diag">Modua: ${modua}<br>Azken irekiera: ${esc(azkena)}</div>
+     <div class="diag">Modua: ${modua}<br><b>Azken irekierak:</b><br>${hist.length ? hist.map(esc).join('<br>') : '—'}</div>
      <button class="btn-bigarren" id="e-itsatsi">Arbeletik itsatsi</button>
      <div class="lbl" style="margin-top:16px">Segurtasun-kopia</div>
      <button class="btn-bigarren" id="e-esportatu">Esportatu datuak (JSON)</button>
@@ -353,13 +359,21 @@ async function itsatsi() {
   else toast('Datu mota ezezaguna');
 }
 
-/* Enlaces: #gastu-berria?taldea=janaria&zenbatekoa=12.50&izena=Mercadona · #diru-sarrera · #itsatsi */
+/* Enlaces, en dos formatos (iOS puede descartar uno de ellos):
+   #gastu-berria?taldea=janaria&zenbatekoa=12.50&izena=Mercadona
+   ?e=gastu-berria&taldea=janaria&zenbatekoa=12.50&izena=Mercadona
+   Acciones: gastu-berria · diru-sarrera · itsatsi */
 function kudeatuEsteka() {
+  let ekintza, p;
   const h = location.hash.slice(1);
-  if (!h) return;
-  const [ekintza, q] = h.split('?');
-  const p = new URLSearchParams(q || '');
-  history.replaceState(null, '', location.pathname + location.search);
+  const bilaketa = new URLSearchParams(location.search);
+  if (h) {
+    const [e, q] = h.split('?');
+    ekintza = e; p = new URLSearchParams(q || '');
+  } else if (bilaketa.has('e')) {
+    ekintza = bilaketa.get('e'); p = bilaketa;
+  } else return;
+  history.replaceState(null, '', location.pathname);
   if (ekintza === 'gastu-berria') {
     gastuOrria({
       gid: (taldeaSlug(p.get('taldea')) || {}).id,
@@ -373,8 +387,16 @@ function kudeatuEsteka() {
   }
 }
 
-function erregistratuIrekiera() {
-  try { localStorage.setItem('azken-irekiera', `${location.href}  (${new Date().toLocaleString('es-ES')})`); } catch (e) { /* sin acceso */ }
+/* Diagnóstico: guarda las últimas 8 veces que la app se abrió o volvió a primer plano, con la dirección recibida */
+function erregistratuIrekiera(mota) {
+  try {
+    const l = JSON.parse(localStorage.getItem('irekierak') || '[]');
+    l.unshift(`${new Date().toLocaleTimeString('es-ES')} · ${mota} · ${location.href.replace(location.origin, '')}`);
+    localStorage.setItem('irekierak', JSON.stringify(l.slice(0, 8)));
+  } catch (e) { /* sin acceso */ }
+}
+function irekierak() {
+  try { return JSON.parse(localStorage.getItem('irekierak') || '[]'); } catch (e) { return []; }
 }
 
 /* Copia de seguridad (de momento sin cifrar) */
@@ -467,12 +489,14 @@ function lotuEkintzak() {
     y0 = null;
   });
 
-  window.addEventListener('hashchange', () => { erregistratuIrekiera(); kudeatuEsteka(); });
+  window.addEventListener('hashchange', () => { erregistratuIrekiera('hash'); kudeatuEsteka(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') erregistratuIrekiera('itzuli'); });
+  window.addEventListener('pageshow', ev => { if (ev.persisted) { erregistratuIrekiera('pageshow'); kudeatuEsteka(); } });
 }
 
 /* ---------- Arranque ---------- */
 (async function hasi() {
-  erregistratuIrekiera();
+  erregistratuIrekiera('abiatu');
   try {
     S = await DB.lortu('egoera');
   } catch (e) {

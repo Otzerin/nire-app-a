@@ -107,8 +107,12 @@ button.txartela:active { background: #F0F2EF; }
 .oharra { background: var(--teal-bg); color: var(--teal-dark); border-radius: 10px; padding: 10px 12px; font-size: 13px; margin: 6px 0 10px; line-height: 1.45; }
 .diag { font-size: 12px; color: var(--text2); background: #F0F2EF; border-radius: 8px; padding: 8px 10px; word-break: break-all; }
 
-#toast { position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); background: #1E2321; color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 60; }
-#toast.ikusi { opacity: 1; transform: translate(-50%, 0); }
+.pilula { position: fixed; right: 18px; bottom: calc(88px + env(safe-area-inset-bottom)); z-index: 21; background: #fff; color: var(--teal); border: 1.5px solid var(--teal-mid); border-radius: 22px; padding: 11px 16px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+.pilula[hidden] { display: none; }
+.pilula:active { background: var(--teal-bg); }
+#toast button { color: var(--teal-pale); font-weight: 600; margin-left: 14px; padding: 2px 4px; }
+#toast { position: fixed; left: 50%; bottom: calc(150px + env(safe-area-inset-bottom)); white-space: nowrap; max-width: 92vw; overflow: hidden; text-overflow: ellipsis; transform: translate(-50%, 20px); background: #1E2321; color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 60; }
+#toast.ikusi { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
 
 /* Vista amplia (PC / iPad) */
 @media (min-width: 900px) {

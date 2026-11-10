@@ -2,7 +2,7 @@
 /* Nire App-a — v0.1 (solo Aurrekontua)
    Todo el texto visible está en euskera. Los datos se guardan solo en este dispositivo (IndexedDB). */
 
-const BERTSIOA = '0.1.2';
+const BERTSIOA = '0.2.0';
 const HIL = ['urtarrila', 'otsaila', 'martxoa', 'apirila', 'maiatza', 'ekaina', 'uztaila', 'abuztua', 'iraila', 'urria', 'azaroa', 'abendua'];
 const HIL_LAB = ['Urt', 'Ots', 'Mar', 'Api', 'Mai', 'Eka', 'Uzt', 'Abu', 'Ira', 'Urr', 'Aza', 'Abe'];
 const KOLOREAK = ['#0F6E56', '#5DCAA5', '#378ADD', '#EF9F27', '#D85A30', '#D4537E', '#7F77DD', '#888780', '#639922', '#BA7517', '#185FA5', '#993556'];
@@ -304,26 +304,22 @@ function taldeOrria(g) {
   );
 }
 
-/* Ajustes: enlaces para Atajos, diagnóstico y copia de seguridad */
+/* Ajustes: instrucciones para Atajos, diagnóstico y copia de seguridad */
 function ezarpenakOrria() {
-  const oinarria = `webapp://${location.host}${location.pathname}`;
-  const estekak = [['Gastu berria', '#gastu-berria'], ['Diru-sarrera', '#diru-sarrera'], ['Arbeletik itsatsi', '#itsatsi']]
-    .concat(S.groups.filter(g => !g.archived).map(g => [`${g.icon} ${g.name}`, `#gastu-berria?taldea=${slug(g.name)}`]));
+  const irekiUrl = `webapp://${location.host}${location.pathname}`;
+  const gs = S.groups.filter(g => !g.archived);
   const modua = (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) ? 'App instalatua' : 'Nabigatzailea';
   const hist = irekierak();
-  const probak = [
-    ['Proba A (#)', '#gastu-berria?taldea=janaria&zenbatekoa=1.11&izena=Proba-A'],
-    ['Proba B (?)', '?e=gastu-berria&taldea=janaria&zenbatekoa=2.22&izena=Proba-B']
-  ];
   irekiOrria(
     goiburua('Ezarpenak') +
-    `<div class="lbl">Atajoetarako estekak</div>
-     <div class="oharra">Kopiatu esteka eta itsatsi iPhoneko <b>Atajos</b> aplikazioko "Abrir URL" ekintzan.</div>
-     ${estekak.map(([iz, h]) => `<div class="esteka-lerroa"><span><b>${esc(iz)}</b><br><code>${esc(oinarria + h)}</code></span>
-        <button class="kopiatu" data-kopiatu="${esc(oinarria + h)}">Kopiatu</button></div>`).join('')}
-     <div class="lbl" style="margin-top:16px">Atajoen probak</div>
-     ${probak.map(([iz, h]) => `<div class="esteka-lerroa"><span><b>${esc(iz)}</b><br><code>${esc(oinarria + h)}</code></span>
-        <button class="kopiatu" data-kopiatu="${esc(oinarria + h)}">Kopiatu</button></div>`).join('')}
+    `<div class="lbl">Atajoak</div>
+     <div class="oharra">iOS-ek ez dio app-ari estekako daturik pasatzen. Horregatik, atajoak datuak <b>arbelean kopiatzen</b> ditu eta app-a irekitzen du. Gero, app-an <b>"📋 Itsatsi atajotik"</b> eta <b>"Pegar"</b> sakatu, eta gastua gordeta geratzen da.</div>
+     <div class="esteka-lerroa"><span><b>App-a irekitzeko esteka</b><br><code>${esc(irekiUrl)}</code></span>
+       <button class="kopiatu" data-kopiatu="${esc(irekiUrl)}">Kopiatu</button></div>
+     <div class="esteka-lerroa"><span><b>Arbeleko testuaren formatua</b><br><code>NIREAPP|gastua|taldea|zenbatekoa|izena</code><br><code>NIREAPP|sarrera|zenbatekoa|izena</code></span></div>
+     <div class="lbl" style="margin-top:12px">Taldeen kodeak</div>
+     ${gs.map(g => `<div class="esteka-lerroa"><span>${g.icon} ${esc(g.name)}</span>
+        <span><code>${slug(g.name)}</code><button class="kopiatu" data-kopiatu="${slug(g.name)}">Kopiatu</button></span></div>`).join('')}
      <div class="lbl" style="margin-top:16px">Diagnostikoa</div>
      <div class="diag">Modua: ${modua}<br><b>Azken irekierak:</b><br>${hist.length ? hist.map(esc).join('<br>') : '—'}</div>
      <button class="btn-bigarren" id="e-itsatsi">Arbeletik itsatsi</button>
@@ -348,16 +344,64 @@ function itsatsiOrria() {
   );
 }
 
-/* Formato del portapapeles: NIREAPP|gastua|<taldea>|<zenbatekoa>|<izena>  ·  NIREAPP|sarrera|<zenbatekoa>|<izena> */
+/* Formato del portapapeles: NIREAPP|gastua|<taldea>|<zenbatekoa>|<izena>  ·  NIREAPP|sarrera|<zenbatekoa>|<izena>
+   Si los datos son completos se guardan directamente (con "Desegin" para deshacer);
+   si falta algo (grupo desconocido, importe no válido) se abre la hoja rellena para completarlo. */
 async function itsatsi() {
+  ezkutatuPilula();
   let t = '';
   try { t = (await navigator.clipboard.readText()).trim(); } catch (e) { return toast('Ezin izan da arbela irakurri'); }
   const p = t.split('|').map(x => x.trim());
-  if (p[0] !== 'NIREAPP') return toast('Arbelean ez dago atajoko daturik');
-  if (p[1] === 'gastua') gastuOrria({ gid: (taldeaSlug(p[2]) || {}).id, amount: zenbakia(p[3]), name: p[4] || '' });
-  else if (p[1] === 'sarrera') sarrerakOrria({ amount: zenbakia(p[2]), name: p[3] || '' });
-  else toast('Datu mota ezezaguna');
+  if ((p[0] || '').toUpperCase() !== 'NIREAPP') return toast('Arbelean ez dago atajoko daturik');
+  const mota = (p[1] || '').toLowerCase();
+
+  if (mota === 'gastua') {
+    const g = taldeaSlug(p[2]), amount = zenbakia(p[3]), name = p[4] || '';
+    if (!g || !(amount > 0)) return gastuOrria({ gid: g && g.id, amount, name });
+    if (bikoiztua(t) && !confirm('Gastu hau duela gutxi itsatsi duzu. Berriro gorde?')) return;
+    const e = { id: uid(), name: name || g.name, amount: round2(amount), date: gaur(), gid: g.id };
+    S.expenses.push(e);
+    await gorde(); gogoratuItsatsia(t);
+    hil = hk(e.date); render();
+    toast(`Gordeta: ${eur(e.amount)} · ${g.icon} ${g.name}`, 'Desegin', async () => {
+      S.expenses = S.expenses.filter(x => x.id !== e.id);
+      await gorde(); render(); toast('Desegina');
+    });
+  } else if (mota === 'sarrera') {
+    const amount = zenbakia(p[2]), name = p[3] || 'Diru-sarrera';
+    if (!(amount > 0)) return sarrerakOrria({ name });
+    if (bikoiztua(t) && !confirm('Diru-sarrera hau duela gutxi itsatsi duzu. Berriro gorde?')) return;
+    const i = { id: uid(), name, amount: round2(amount), date: gaur() };
+    S.incomes.push(i);
+    await gorde(); gogoratuItsatsia(t);
+    hil = hk(i.date); render();
+    toast(`Gordeta: ${eur(i.amount)} · ${name}`, 'Desegin', async () => {
+      S.incomes = S.incomes.filter(x => x.id !== i.id);
+      await gorde(); render(); toast('Desegina');
+    });
+  } else toast('Datu mota ezezaguna');
 }
+
+/* Evita guardar dos veces lo mismo si se pega el mismo texto en menos de 30 minutos */
+function bikoiztua(t) {
+  try {
+    const a = JSON.parse(localStorage.getItem('azken-itsatsia') || 'null');
+    return !!a && a.t === t && Date.now() - a.ts < 30 * 60 * 1000;
+  } catch (e) { return false; }
+}
+function gogoratuItsatsia(t) {
+  try { localStorage.setItem('azken-itsatsia', JSON.stringify({ t, ts: Date.now() })); } catch (e) { /* sin acceso */ }
+}
+
+/* Botón flotante "Itsatsi atajotik": aparece 20 s cada vez que se abre la app o vuelve a primer plano */
+let pilulaTimer;
+function erakutsiPilula() {
+  if (!(navigator.clipboard && navigator.clipboard.readText)) return;
+  $('#itsatsi-pilula').hidden = false;
+  clearTimeout(pilulaTimer);
+  pilulaTimer = setTimeout(ezkutatuPilula, 20000);
+}
+function ezkutatuPilula() { $('#itsatsi-pilula').hidden = true; clearTimeout(pilulaTimer); }
 
 /* Enlaces, en dos formatos (iOS puede descartar uno de ellos):
    #gastu-berria?taldea=janaria&zenbatekoa=12.50&izena=Mercadona
@@ -425,12 +469,19 @@ function inportatu(ev) {
 }
 
 let toastTimer;
-function toast(t) {
+/* Aviso breve abajo; opcionalmente con un botón (p. ej. "Desegin") */
+function toast(t, botoia, ekintza) {
   const el = $('#toast');
   el.textContent = t;
+  if (botoia) {
+    const b = document.createElement('button');
+    b.textContent = botoia;
+    b.onclick = () => { el.classList.remove('ikusi'); ekintza(); };
+    el.appendChild(b);
+  }
   el.classList.add('ikusi');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('ikusi'), 2200);
+  toastTimer = setTimeout(() => el.classList.remove('ikusi'), botoia ? 6000 : 2200);
 }
 
 /* ---------- Eventos ---------- */
@@ -490,7 +541,10 @@ function lotuEkintzak() {
   });
 
   window.addEventListener('hashchange', () => { erregistratuIrekiera('hash'); kudeatuEsteka(); });
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') erregistratuIrekiera('itzuli'); });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') { erregistratuIrekiera('itzuli'); erakutsiPilula(); }
+  });
+  $('#itsatsi-pilula').onclick = itsatsi;
   window.addEventListener('pageshow', ev => { if (ev.persisted) { erregistratuIrekiera('pageshow'); kudeatuEsteka(); } });
 }
 
@@ -511,5 +565,6 @@ function lotuEkintzak() {
   lotuEkintzak();
   render();
   kudeatuEsteka();
+  erakutsiPilula();
   if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
 })();

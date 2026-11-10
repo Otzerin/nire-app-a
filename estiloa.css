@@ -1,0 +1,136 @@
+:root {
+  --bg: #F5F6F4; --surface: #fff; --border: #E2E5E1; --border-strong: #CBD0CA;
+  --text: #1E2321; --text2: #5F6662; --muted: #8E9490;
+  --teal: #0F6E56; --teal-mid: #1D9E75; --teal-pale: #9FE1CB; --teal-bg: #E1F5EE; --teal-dark: #085041;
+  --red: #E24B4A; --red-text: #A32D2D; --coral: #993C1D; --blue: #185FA5;
+  color-scheme: light;
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--bg); color: var(--text); }
+body { font-family: -apple-system, "SF Pro Text", "Segoe UI", Roboto, sans-serif; font-size: 15px;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left); }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+input { font: inherit; font-size: 16px; }
+h1 { font-size: 22px; margin: 0; font-weight: 600; }
+h2 { font-size: 16px; margin: 0 0 8px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
+
+/* Estructura */
+.alboa { display: none; }
+main { padding: 8px 16px 110px; max-width: 1200px; margin: 0 auto; }
+.goiburua { display: flex; justify-content: space-between; align-items: center; height: 48px; }
+.goi-eskuina { display: flex; gap: 10px; align-items: center; }
+.ikono-btn { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; color: var(--text2); }
+.ikono-btn:active { background: #E9EBE8; }
+.hilabetea { display: flex; justify-content: center; align-items: center; gap: 12px; font-weight: 600; margin: 2px 0 12px; }
+.hilabetea span { min-width: 150px; text-align: center; }
+
+/* Tarjetas */
+.txartelak { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.txartela { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+button.txartela:active { background: #F0F2EF; }
+.txartela .lbl { font-size: 12px; }
+.txartela .bal { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.berdea { color: var(--teal); } .laranja { color: var(--coral); } .urdina { color: var(--blue); }
+.neg { color: var(--red-text); }
+.luzea { display: none; }
+
+/* Paneles */
+.zutabeak { display: grid; gap: 12px; }
+.grafikoak { display: grid; gap: 12px; }
+.panela { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+.esteka { color: var(--teal); font-weight: 600; margin-top: 10px; padding: 6px 0; }
+.hutsa { color: var(--muted); font-size: 14px; margin: 8px 0; }
+
+/* Grupos */
+.taldea { display: grid; grid-template-columns: 30px 1fr auto; column-gap: 8px; row-gap: 5px; align-items: center; width: 100%; padding: 10px 0; border-top: 1px solid var(--border); }
+.taldea:first-child { border-top: 0; }
+.taldea .ik { font-size: 19px; grid-row: span 2; text-align: center; }
+.taldea .zk { font-size: 13px; color: var(--text2); white-space: nowrap; }
+.taldea .zk.gainditua { color: var(--red-text); }
+.barra { grid-column: 2 / 4; height: 6px; border-radius: 3px; background: #EEF0ED; overflow: hidden; }
+.barra i { display: block; height: 100%; border-radius: 3px; background: var(--teal-mid); }
+.barra i.over { background: var(--red); }
+
+/* Gráficos */
+.donut-bilgarria { display: flex; align-items: center; gap: 16px; }
+.donut { width: 150px; height: 150px; flex: none; }
+.legenda-zerr { flex: 1; font-size: 13px; min-width: 0; }
+.legenda-zerr div { display: flex; justify-content: space-between; padding: 3px 0; gap: 6px; }
+.puntua { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; }
+.legenda { font-size: 12px; font-weight: 400; color: var(--text2); }
+.legenda i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin: 0 4px 0 8px; }
+.legenda .aurr { background: var(--teal-pale); } .legenda .erre { background: var(--teal); }
+.barrak { width: 100%; height: auto; display: block; }
+
+/* Botones */
+.fab { position: fixed; right: 18px; bottom: calc(20px + env(safe-area-inset-bottom)); background: var(--teal); color: #fff; border-radius: 28px; padding: 15px 22px; font-weight: 600; font-size: 16px; box-shadow: 0 6px 18px rgba(15,110,86,.35); z-index: 20; }
+.fab:active, .btn-nagusia:active { opacity: .85; }
+.btn-nagusia { display: block; width: 100%; background: var(--teal); color: #fff; text-align: center; border-radius: 12px; padding: 14px; font-weight: 600; font-size: 16px; margin-top: 6px; }
+.btn-nagusia.txikia { width: auto; padding: 9px 14px; margin: 0; font-size: 15px; }
+.btn-bigarren { display: block; width: 100%; border: 1px solid var(--border-strong); text-align: center; border-radius: 12px; padding: 12px; font-weight: 600; margin-top: 10px; }
+.btn-arriskua { display: block; width: 100%; color: var(--red-text); text-align: center; padding: 12px; margin-top: 14px; }
+.zabalean { display: none; }
+
+/* Hoja estilo iOS */
+#orria { position: fixed; inset: 0; z-index: 50; }
+#orria[hidden] { display: none; }
+.atzealdea { position: absolute; inset: 0; background: rgba(0,0,0,.4); opacity: 0; transition: opacity .25s; }
+.xafla { position: absolute; left: 0; right: 0; bottom: 0; max-height: 92vh; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  background: var(--surface); border-radius: 20px 20px 0 0; padding: 8px 20px calc(24px + env(safe-area-inset-bottom));
+  transform: translateY(100%); transition: transform .28s cubic-bezier(.2,.8,.2,1); }
+#orria.ireki .atzealdea { opacity: 1; }
+#orria.ireki .xafla { transform: translateY(0); }
+.heldulekua { width: 40px; height: 5px; border-radius: 3px; background: var(--border-strong); margin: 4px auto 10px; }
+.orri-goiburua { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.orri-goiburua h2 { margin: 0; font-size: 19px; }
+.x { width: 34px; height: 34px; border-radius: 50%; background: #EEF0ED; font-size: 20px; line-height: 1; color: var(--text2); display: inline-flex; align-items: center; justify-content: center; }
+.xafla label { display: block; color: var(--text2); font-size: 13px; margin-bottom: 10px; }
+.xafla input[type=text], .xafla input[type=date], .xafla input:not([type]) { display: block; width: 100%; margin-top: 4px; padding: 11px 12px; border: 1px solid var(--border-strong); border-radius: 10px; background: #fff; color: var(--text); -webkit-appearance: none; min-height: 46px; }
+.xafla input:focus { outline: none; border-color: var(--teal-mid); box-shadow: 0 0 0 3px var(--teal-bg); }
+.xafla .handia { font-size: 22px !important; font-weight: 600; }
+.xafla .lbl { color: var(--text2); font-size: 13px; margin: 4px 0 6px; }
+.check { display: flex !important; gap: 8px; align-items: center; color: var(--text) !important; font-size: 15px !important; }
+.check input { width: 20px; height: 20px; accent-color: var(--teal); }
+.txipak, .ikonoak { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.txipa { padding: 8px 12px; border-radius: 18px; border: 1px solid var(--border-strong); font-size: 14px; }
+.txipa.on { background: var(--teal-bg); border-color: var(--teal-mid); color: var(--teal-dark); font-weight: 600; }
+.ikonoa { width: 42px; height: 42px; border-radius: 10px; border: 1px solid var(--border); font-size: 21px; text-align: center; }
+.ikonoa.on { border: 2px solid var(--teal-mid); background: var(--teal-bg); }
+.errorea { color: var(--red-text); font-size: 13px; min-height: 0; margin: 0 0 6px; }
+.lerroa { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 14px; }
+.lerroa small { color: var(--muted); margin-left: 4px; }
+.lerroa > span:last-child { white-space: nowrap; }
+.ezab { width: 28px; height: 28px; border-radius: 50%; color: var(--muted); font-size: 18px; text-align: center; margin-left: 4px; }
+.esteka-lerroa { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 9px 0; border-top: 1px solid var(--border); font-size: 13px; }
+.esteka-lerroa code { font-size: 11px; color: var(--text2); word-break: break-all; }
+.kopiatu { flex: none; color: var(--teal); font-weight: 600; font-size: 14px; padding: 6px 8px; }
+.oharra { background: var(--teal-bg); color: var(--teal-dark); border-radius: 10px; padding: 10px 12px; font-size: 13px; margin: 6px 0 10px; line-height: 1.45; }
+.diag { font-size: 12px; color: var(--text2); background: #F0F2EF; border-radius: 8px; padding: 8px 10px; word-break: break-all; }
+
+#toast { position: fixed; left: 50%; bottom: calc(90px + env(safe-area-inset-bottom)); transform: translate(-50%, 20px); background: #1E2321; color: #fff; padding: 10px 16px; border-radius: 20px; font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s; z-index: 60; }
+#toast.ikusi { opacity: 1; transform: translate(-50%, 0); }
+
+/* Vista amplia (PC / iPad) */
+@media (min-width: 900px) {
+  .app { display: grid; grid-template-columns: 210px 1fr; min-height: 100vh; }
+  .alboa { display: block; background: #EDF0EC; border-right: 1px solid var(--border); padding: 20px 12px; }
+  .marka { font-weight: 600; font-size: 17px; padding: 0 10px 18px; }
+  .alboa a { display: block; padding: 9px 10px; border-radius: 8px; color: var(--text2); margin-bottom: 2px; }
+  .alboa a.on { background: var(--teal-bg); color: var(--teal-dark); font-weight: 600; }
+  .alboa a.laster { opacity: .55; }
+  .alboa small { font-size: 11px; }
+  main { padding: 20px 24px 40px; width: 100%; }
+  .fab { display: none; }
+  .zabalean { display: inline-block; }
+  .hilabetea { justify-content: flex-start; }
+  .luzea { display: inline; } .laburra { display: none; }
+  .txartelak { gap: 14px; margin-bottom: 16px; }
+  .txartela { padding: 14px 16px; }
+  .txartela .bal { font-size: 24px; }
+  .zutabeak { grid-template-columns: 1.15fr 1fr; gap: 14px; align-items: start; }
+  .grafikoak { gap: 14px; }
+  .xafla { left: 50%; right: auto; bottom: auto; top: 50%; width: 460px; max-height: 86vh; border-radius: 16px;
+    transform: translate(-50%, -46%); opacity: 0; transition: transform .2s, opacity .2s; padding-bottom: 22px; }
+  #orria.ireki .xafla { transform: translate(-50%, -50%); opacity: 1; }
+  .heldulekua { display: none; }
+}

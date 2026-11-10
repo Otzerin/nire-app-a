@@ -1,0 +1,14 @@
+{
+  "name": "Nire App-a",
+  "short_name": "Nire App-a",
+  "lang": "eu",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F6F4",
+  "theme_color": "#F5F6F4",
+  "icons": [
+    { "src": "ikonoak/ikonoa-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "ikonoak/ikonoa-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

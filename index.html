@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="eu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F5F6F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Nire App-a">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Nire App-a</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="ikonoak/ikonoa-180.png">
+<link rel="icon" href="ikonoak/ikonoa-180.png">
+<link rel="stylesheet" href="estiloa.css">
+</head>
+<body>
+<div class="app">
+  <aside class="alboa">
+    <div class="marka">Nire App-a</div>
+    <nav>
+      <a class="on">💰 Aurrekontua</a>
+      <a class="laster">🚗 Kotxe <small>laster</small></a>
+      <a class="laster">🔁 Zorrak <small>laster</small></a>
+    </nav>
+  </aside>
+
+  <main>
+    <header class="goiburua">
+      <h1>Aurrekontua</h1>
+      <div class="goi-eskuina">
+        <button class="btn-nagusia txikia zabalean" id="gehitu-goian">+ Gastua</button>
+        <button class="ikono-btn" id="ezarpenak" aria-label="Ezarpenak">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="hilabetea">
+      <button class="ikono-btn" id="aurrekoa" aria-label="Aurreko hilabetea">‹</button>
+      <span id="hilabetea"></span>
+      <button class="ikono-btn" id="hurrengoa" aria-label="Hurrengo hilabetea">›</button>
+    </div>
+
+    <section class="txartelak">
+      <button class="txartela" id="t-sarrerak">
+        <span class="lbl berdea"><span class="luzea">Diru-sarrerak</span><span class="laburra">Sarrerak</span></span>
+        <span class="bal" id="k-sarrerak">0 €</span>
+      </button>
+      <button class="txartela" id="t-gastuak">
+        <span class="lbl laranja">Gastuak</span>
+        <span class="bal" id="k-gastuak">0 €</span>
+      </button>
+      <div class="txartela">
+        <span class="lbl urdina">Soberakina</span>
+        <span class="bal" id="k-soberakina">0 €</span>
+      </div>
+    </section>
+
+    <div class="zutabeak">
+      <section class="panela">
+        <h2>Gastu-taldeak</h2>
+        <div id="taldeak"></div>
+        <button class="esteka" id="talde-berria">+ Talde berria</button>
+      </section>
+      <div class="grafikoak">
+        <section class="panela">
+          <h2>Gastuen banaketa</h2>
+          <div id="donut"></div>
+        </section>
+        <section class="panela">
+          <h2>Azken 6 hilabeteak <span class="legenda"><i class="aurr"></i>Aurreikusia <i class="erre"></i>Erreala</span></h2>
+          <div id="barrak"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+</div>
+
+<button class="fab" id="fab">+ Gastua</button>
+
+<div id="orria" hidden>
+  <div class="atzealdea"></div>
+  <div class="xafla" role="dialog" aria-modal="true">
+    <div class="heldulekua"></div>
+    <div class="edukia"></div>
+  </div>
+</div>
+<div id="toast" role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@
   --bg: #F5F6F4; --surface: #fff; --border: #E2E5E1; --border-strong: #CBD0CA;
   --text: #1E2321; --text2: #5F6662; --muted: #8E9490;
   --teal: #0F6E56; --teal-mid: #1D9E75; --teal-pale: #9FE1CB; --teal-bg: #E1F5EE; --teal-dark: #085041;
-  --red: #E24B4A; --red-text: #A32D2D; --coral: #993C1D; --blue: #185FA5;
+  --red: #E24B4A; --red-text: #A32D2D; --coral: #993C1D; --blue: #185FA5; --amber: #BA7517;
   color-scheme: light;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -18,7 +18,8 @@ h2 { font-size: 16px; margin: 0 0 8px; font-weight: 600; display: flex; justify-
 .alboa { display: none; }
 main { padding: 8px 16px 110px; max-width: 1200px; margin: 0 auto; }
 .goiburua { display: flex; justify-content: space-between; align-items: center; height: 48px; }
-.goi-eskuina { display: flex; gap: 10px; align-items: center; }
+.goi-eskuina, .goi-ezkerra { display: flex; gap: 10px; align-items: center; }
+.goi-ezkerra { gap: 4px; margin-left: -8px; }
 .ikono-btn { width: 40px; height: 40px; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; font-size: 26px; color: var(--text2); }
 .ikono-btn:active { background: #E9EBE8; }
 .hilabetea { display: flex; justify-content: center; align-items: center; gap: 12px; font-weight: 600; margin: 2px 0 12px; }
@@ -30,9 +31,40 @@ main { padding: 8px 16px 110px; max-width: 1200px; margin: 0 auto; }
 button.txartela:active { background: #F0F2EF; }
 .txartela .lbl { font-size: 12px; }
 .txartela .bal { font-size: 18px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.berdea { color: var(--teal); } .laranja { color: var(--coral); } .urdina { color: var(--blue); }
+.berdea { color: var(--teal); } .laranja { color: var(--coral); } .urdina { color: var(--blue); } .anbarra { color: var(--amber); }
 .neg { color: var(--red-text); }
 .luzea { display: none; }
+.txartelak.lau { grid-template-columns: 1fr 1fr; }
+.txartela .bal small { font-size: 12px; font-weight: 400; color: var(--text2); }
+.txartela .azpi { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.azpi.merkea { color: var(--teal); } .azpi.garestia { color: var(--red-text); }
+
+/* Kotxe */
+.karga { display: flex; justify-content: space-between; align-items: center; gap: 8px; width: 100%; padding: 9px 0; border-top: 1px solid var(--border); }
+.karga:first-child { border-top: 0; }
+.karga small { display: block; font-size: 12px; color: var(--text2); margin-top: 2px; }
+.karga .esk { text-align: right; white-space: nowrap; }
+.kons-ona { color: var(--teal) !important; } .kons-txarra { color: var(--amber) !important; }
+.estat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+.estat div { background: var(--bg); border-radius: 10px; padding: 8px 10px; font-size: 12px; color: var(--text2); min-width: 0; }
+.estat b { display: block; font-size: 15px; color: var(--text); margin-top: 2px; white-space: nowrap; }
+.lerro-grafikoa { width: 100%; height: auto; display: block; }
+.lerro-grafikoa text { font-size: 10px; fill: #8E9490; }
+.kalkulua { background: var(--bg); border-radius: 10px; padding: 8px 12px; font-size: 14px; margin-bottom: 10px; }
+.kalkulua div { display: flex; justify-content: space-between; padding: 3px 0; }
+.lotura { font-size: 13px; color: var(--text2); margin: 0 0 10px; }
+.bi-zutabe { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.etiketa { display: inline-block; font-size: 10px; font-weight: 600; color: var(--blue); background: #E6F0FA; border-radius: 6px; padding: 1px 6px; margin-left: 6px; vertical-align: 1px; }
+/* En iPhone: gráfico de consumo, lista de cargas y gráfico de precio, en ese orden */
+.kotxe-zutabeak .grafikoak { display: contents; }
+.p-kontsumoa { order: 1; } .p-kargak { order: 2; } .p-prezioa { order: 3; }
+
+/* Menú de secciones (iPhone) */
+.menua button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 4px; border-top: 1px solid var(--border); font-size: 17px; }
+.menua button:first-child { border-top: 0; }
+.menua button.on { color: var(--teal-dark); font-weight: 600; }
+.menua button:disabled { opacity: .45; }
+.menua small { font-size: 12px; color: var(--muted); }
 
 /* Paneles */
 .zutabeak { display: grid; gap: 12px; }
@@ -119,10 +151,17 @@ button.txartela:active { background: #F0F2EF; }
   .app { display: grid; grid-template-columns: 210px 1fr; min-height: 100vh; }
   .alboa { display: block; background: #EDF0EC; border-right: 1px solid var(--border); padding: 20px 12px; }
   .marka { font-weight: 600; font-size: 17px; padding: 0 10px 18px; }
-  .alboa a { display: block; padding: 9px 10px; border-radius: 8px; color: var(--text2); margin-bottom: 2px; }
-  .alboa a.on { background: var(--teal-bg); color: var(--teal-dark); font-weight: 600; }
-  .alboa a.laster { opacity: .55; }
+  .alboa nav button { display: block; width: 100%; padding: 9px 10px; border-radius: 8px; color: var(--text2); margin-bottom: 2px; }
+  .alboa nav button:hover:not(:disabled) { background: #E4E8E3; }
+  .alboa nav button.on { background: var(--teal-bg); color: var(--teal-dark); font-weight: 600; }
+  .alboa nav button.laster { opacity: .55; cursor: default; }
   .alboa small { font-size: 11px; }
+  .mugikorrean { display: none; }
+  .goi-ezkerra { margin-left: 0; }
+  .txartelak.lau { grid-template-columns: repeat(4, 1fr); }
+  .kotxe-zutabeak .grafikoak { display: grid; }
+  .p-kargak { order: 0; }
+  .txartela .azpi { font-size: 12px; }
   main { padding: 20px 24px 40px; width: 100%; }
   .fab { display: none; }
   .zabalean { display: inline-block; }

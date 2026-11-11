@@ -22,18 +22,24 @@
   <aside class="alboa">
     <div class="marka">Nire App-a</div>
     <nav>
-      <a class="on">💰 Aurrekontua</a>
-      <a class="laster">🚗 Kotxe <small>laster</small></a>
-      <a class="laster">🔁 Zorrak <small>laster</small></a>
+      <button data-atala="aurrekontua">💰 Aurrekontua</button>
+      <button data-atala="kotxe">🚗 Kotxe</button>
+      <button class="laster" disabled>🔁 Zorrak <small>laster</small></button>
+      <button data-ezarpenak>⚙️ Ezarpenak</button>
     </nav>
   </aside>
 
   <main>
     <header class="goiburua">
-      <h1>Aurrekontua</h1>
+      <div class="goi-ezkerra">
+        <button class="ikono-btn mugikorrean" id="menua" aria-label="Menua">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <h1 id="izenburua">Aurrekontua</h1>
+      </div>
       <div class="goi-eskuina">
         <button class="btn-nagusia txikia zabalean" id="gehitu-goian">+ Gastua</button>
-        <button class="ikono-btn" id="ezarpenak" aria-label="Ezarpenak">
+        <button class="ikono-btn" data-ezarpenak aria-label="Ezarpenak">
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
         </button>
       </div>
@@ -45,6 +51,7 @@
       <button class="ikono-btn" id="hurrengoa" aria-label="Hurrengo hilabetea">›</button>
     </div>
 
+    <div id="v-aurrekontua">
     <section class="txartelak">
       <button class="txartela" id="t-sarrerak">
         <span class="lbl berdea"><span class="luzea">Diru-sarrerak</span><span class="laburra">Sarrerak</span></span>
@@ -75,6 +82,33 @@
           <h2>Azken 6 hilabeteak <span class="legenda"><i class="aurr"></i>Aurreikusia <i class="erre"></i>Erreala</span></h2>
           <div id="barrak"></div>
         </section>
+      </div>
+    </div>
+    </div>
+
+    <div id="v-kotxe" hidden>
+      <section class="txartelak lau">
+        <div class="txartela"><span class="lbl berdea">Batez besteko kontsumoa</span><span class="bal" id="k-kontsumoa"></span></div>
+        <div class="txartela"><span class="lbl urdina">Kilometroak guztira</span><span class="bal" id="k-km"></span></div>
+        <div class="txartela"><span class="lbl laranja">Hilabeteko gastua</span><span class="bal" id="k-hilgastua"></span><span class="azpi" id="k-hilgastua-azpi"></span></div>
+        <div class="txartela"><span class="lbl anbarra">Azken litro-prezioa</span><span class="bal" id="k-prezioa"></span><span class="azpi" id="k-prezioa-azpi"></span></div>
+      </section>
+      <div class="zutabeak kotxe-zutabeak">
+        <section class="panela p-kargak">
+          <h2>Erregai-kargak</h2>
+          <div id="kargak"></div>
+          <div class="estat" id="k-estat"></div>
+        </section>
+        <div class="grafikoak">
+          <section class="panela p-kontsumoa">
+            <h2>Kontsumoaren bilakaera <span class="legenda">L/100km</span></h2>
+            <div id="g-kontsumoa"></div>
+          </section>
+          <section class="panela p-prezioa">
+            <h2>Litroaren prezioa <span class="legenda">€/L</span></h2>
+            <div id="g-prezioa"></div>
+          </section>
+        </div>
       </div>
     </div>
   </main>

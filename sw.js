@@ -1,6 +1,6 @@
 // Service worker: permite abrir la app sin conexión.
 // Estrategia "red primero": si hay internet carga la última versión; si no, usa la copia guardada.
-const CACHE = 'nire-app-a-v4';
+const CACHE = 'nire-app-a-v5';
 const FITXATEGIAK = [
   './', './index.html', './estiloa.css', './app.js', './manifest.webmanifest',
   './ikonoak/ikonoa-180.png', './ikonoak/ikonoa-512.png'
